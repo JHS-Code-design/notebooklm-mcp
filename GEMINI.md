@@ -1,0 +1,120 @@
+# GEMINI.md
+
+## Project Overview
+
+**NotebookLM MCP Server**
+
+This project implements a Model Context Protocol (MCP) server that provides programmatic access to [NotebookLM](https://notebooklm.google.com). It allows AI agents and developers to interact with NotebookLM notebooks, sources, and query capabilities.
+
+Tested with personal/free tier accounts. May work with Google Workspace accounts but has not been tested. This project relies on internal APIs (`batchexecute` RPCs).
+
+## Environment & Setup
+
+The project uses `uv` for dependency management and tool installation.
+
+### Prerequisites
+- Python 3.11+
+- `uv` (Universal Python Package Manager)
+- Google Chrome (for automated authentication)
+
+### Installation
+
+**From PyPI (Recommended):**
+```bash
+uv tool install notebooklm-mcp-server
+# or: pip install notebooklm-mcp-server
+```
+
+**From Source (Development):**
+```bash
+git clone https://github.com/YOUR_USERNAME/notebooklm-mcp.git
+cd notebooklm-mcp
+uv tool install .
+```
+
+## Authentication
+
+**Preferred: Run the automated authentication CLI:**
+```bash
+notebooklm-mcp-auth
+```
+This launches Chrome, you log in, and cookies are extracted automatically. Your login is saved to a Chrome profile for future use.
+
+**Auto-refresh (v0.1.9+):**
+The server now automatically handles token expiration:
+1. Refreshes CSRF tokens on expiry (immediate)
+2. Reloads cookies from disk if updated externally
+3. Runs headless Chrome auth if profile has saved login
+
+If headless auth fails (Google login fully expired), you'll see a message to run `notebooklm-mcp-auth` again.
+
+**Explicit refresh (MCP tool):**
+```
+refresh_auth()  # Reload tokens from disk or run headless auth
+```
+
+**Fallback: Manual extraction (if CLI fails)**
+If the automated tool doesn't work, extract cookies via Chrome DevTools:
+1. Open Chrome DevTools on notebooklm.google.com
+2. Go to Network tab, find a batchexecute request
+3. Copy the Cookie header and call `save_auth_tokens(cookies=...)`
+
+**Environment variable (advanced):**
+```bash
+export NOTEBOOKLM_COOKIES="SID=xxx; HSID=xxx; SSID=xxx; ..."
+```
+
+Cookies last for weeks. The server auto-refreshes as long as Chrome profile login is valid.
+
+## Development Workflow
+
+### Building and Running
+
+**Reinstalling after changes:**
+Because `uv tool install` installs into an isolated environment, you must reinstall to see changes during development.
+```bash
+uv cache clean
+uv tool install --force .
+```
+
+**Running the Server:**
+**Running the Server:**
+```bash
+# Standard mode (stdio)
+notebooklm-mcp
+
+# Debug mode (verbose logging)
+notebooklm-mcp --debug
+
+# HTTP Server mode
+notebooklm-mcp --transport http --port 8000
+```
+
+### Testing
+
+Run the test suite using `pytest` via `uv`:
+```bash
+# Run all tests
+uv run pytest
+
+# Run a specific test file
+uv run pytest tests/test_api_client.py
+```
+
+## Project Structure
+
+- `src/notebooklm_mcp/`
+    - `server.py`: Main entry point. Defines the MCP server and tools.
+    - `api_client.py`: The core logic. Contains the internal API calls.
+    - `constants.py`: Single source of truth for all API code-name mappings.
+    - `auth.py`: Handles token validation, storage, and loading.
+    - `auth_cli.py`: Implementation of the `notebooklm-mcp-auth` CLI.
+- `CLAUDE.md`: Contains detailed documentation on the internal RPC IDs and protocol specifics. **Refer to this file for API deep dives.**
+- `pyproject.toml`: Project configuration and dependencies.
+
+## Key Conventions
+
+- **Internal APIs:** This project relies on undocumented APIs. Changes to Google's internal API will break functionality.
+- **RPC Protocol:** The API uses Google's `batchexecute` protocol. Responses often contain "anti-XSSI" prefixes (`)]}'`) that must be stripped.
+- **Tools:** New features should be exposed as MCP tools in `server.py`.
+- **Constants:** All code-name mappings should be defined in `constants.py` using the `CodeMapper` class.
