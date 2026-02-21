@@ -1,37 +1,194 @@
-# NotebookLM MCP Server
+# Connect AI LAB 제이 AI 멘토: 1인 기업 수익화 정석
 
-이 서버는 Antigravity에서 NotebookLM을 제어하기 위한 MCP 서버입니다.
-Puppeteer를 사용해 브라우저를 자동화하여 NotebookLM 기능을 제공합니다.
+<img src="docs/media/jay_profile.jpg" width="300" alt="Jay Profile" />
+
+**[유튜브 채널 바로가기](https://www.youtube.com/@CONNECT-AI-LAB)** | **[공식 홈페이지](https://www.aicitybuilders.com/)**
+
+### 🏆 글로벌 AI 교육 1위, 제이가 만드는 1인 기업 자동화의 정석
+
+**Connect AI LAB 제이 AI 멘토**에 오신 것을 환영합니다.
+
+이 프로젝트는 **글로벌 AI 교육 1위**이자 **1인 기업가**들의 멘토인 **제이(Jay)**가 직접 개발하고 있는 NotebookLM 자동화 시스템입니다.
+
+[![Vibe Coding Intro](https://img.youtube.com/vi/Gts_7nuf9dQ/maxresdefault.jpg)](https://www.youtube.com/watch?v=Gts_7nuf9dQ)
+
+> **NotebookLM**(notebooklm.google.com)을 프로그래밍 방식으로 제어하여, 여러분의 지식 비즈니스를 완전 자동화할 수 있도록 돕습니다.
+
+> **⚠️ 경고:** 이 프로젝트의 콘텐츠 및 코드를 무단으로 복제하거나 상업적으로 재배포하는 것을 금지합니다.
+>
+> 📧 **문의:** jay@connexionai.kr
+
+> **참고:** Pro 및 무료 계정에서 테스트되었습니다. Enterprise 계정에서도 작동할 수 있지만 테스트되지는 않았습니다.
+
+## 주요 기능
+
+| 도구 | 설명 |
+|------|-------------|
+| `notebook_list` | 모든 노트북 목록 조회 |
+| `notebook_create` | 새 노트북 생성 |
+| `notebook_get` | 소스를 포함한 노트북 세부 정보 조회 |
+| `notebook_describe` | 노트북 콘텐츠에 대한 AI 요약 생성 |
+| `source_describe` | 소스에 대한 AI 요약 및 키워드 생성 |
+| `source_get_content` | 소스에서 원본 텍스트 추출 (AI 처리 없음) |
+| `notebook_rename` | 노트북 이름 변경 |
+| `chat_configure` | 채팅 목표/스타일 및 응답 길이 설정 |
+| `notebook_delete` | 노트북 삭제 (확인 필요) |
+| `notebook_add_url` | URL/유튜브를 소스로 추가 |
+| `notebook_add_text` | 붙여넣은 텍스트를 소스로 추가 |
+| `notebook_add_drive` | 구글 드라이브 문서를 소스로 추가 |
+| `notebook_query` | 질문하고 AI 답변 받기 |
+| `source_list_drive` | 최신 상태 여부와 함께 소스 목록 조회 |
+| `source_sync_drive` | 오래된 드라이브 소스 동기화 (확인 필요) |
+| `source_delete` | 노트북에서 소스 삭제 (확인 필요) |
+| `research_start` | 소스 발굴을 위한 웹 또는 드라이브 조사 시작 |
+| `research_status` | 조사 진행 상황 확인 |
+| `research_import` | 발굴된 소스를 노트북으로 가져오기 |
+| `audio_overview_create` | 오디오 팟캐스트 생성 (확인 필요) |
+| `video_overview_create` | 비디오 오버뷰 생성 (확인 필요) |
+| `infographic_create` | 인포그래픽 생성 (확인 필요) |
+| `slide_deck_create` | 슬라이드 덱 생성 (확인 필요) |
+| `studio_status` | 스튜디오 아티팩트 생성 상태 확인 |
+| `studio_delete` | 스튜디오 아티팩트 삭제 (확인 필요) |
+| `refresh_auth` | 디스크에서 인증 토큰 다시 로드 또는 헤드리스 재인증 실행 |
+| `save_auth_tokens` | 인증용 쿠키 저장 |
+
+## 중요 고지 사항
+
+이 MCP는 다음과 같은 **내부 API**를 사용합니다:
+- 문서화되지 않았으며 예고 없이 변경될 수 있습니다.
+- 브라우저에서 쿠키 추출이 필요합니다.
+
+개인적/실험적 목적으로만 사용해 주십시오.
 
 ## 설치 방법
 
-1. 의존성 설치:
-```
-npm install
-```
+선호하는 Python 패키지 관리자(uv, pip, pipx 등)를 사용하여 PyPI에서 `notebooklm-mcp-server`를 설치할 수 있습니다.
 
-2. 환경변수 설정 (`.env.example`을 복사해서 `.env` 파일 생성):
-```
-GOOGLE_EMAIL=your-email@gmail.com
-GOOGLE_PASSWORD=your-password
-```
+소스 코드에서 직접 설치하는 방법도 지원합니다.
 
-3. 빌드:
-```
-npm run build
-```
+## 업데이트 방법
 
-## 연결 방법 (Antigravity)
+패키지 관리자의 업그레이드 명령어를 사용하여 최신 버전으로 업데이트하세요.
 
-안티그래비티 MCP 설정에 다음을 추가하세요:
+업데이트 후에는 AI 도구를 재시작하여 연결을 갱신해야 합니다:
+- **Claude Code:** 애플리케이션을 재시작하거나 재연결 명령을 사용
+- **Cursor:** 애플리케이션 재시작
+- **Gemini CLI:** CLI 세션 재시작
 
-- **Command**: `node`
-- **Args**: `[설치경로]/build/index.js`
+## 제거 방법
 
-## 제공 기능 (Tools)
+MCP를 완전히 제거하려면 패키지 관리자의 제거 명령어를 사용하세요. 선택적으로 캐시된 인증 토큰이나 AI 도구의 설정 파일에서도 제거할 수 있습니다.
 
-| 도구 | 설명 |
-|------|------|
-| `create_notebook` | 새 노트북 생성 |
-| `list_notebooks` | 노트북 목록 조회 |
-| `open_notebooklm` | 브라우저에서 NotebookLM 열기 |
+## 인증
+
+MCP를 사용하기 전에 NotebookLM 인증이 필요합니다.
+
+**자동 모드**를 권장합니다. 전용 Chrome 프로필을 실행하여 구글에 로그인하면 쿠키가 자동으로 추출됩니다. 로그인 정보는 추후 인증 갱신을 위해 저장됩니다.
+
+만약 자동 모드가 작동하지 않는다면, **파일 모드**를 통해 Chrome 개발자 도구에서 수동으로 쿠키를 추출하여 저장할 수 있습니다.
+
+인증 성공 후에는 MCP를 AI 도구에 추가하고 재시작하세요.
+
+자세한 내용과 문제 해결 방법은 **[docs/AUTHENTICATION.md](docs/AUTHENTICATION.md)**를 참고하세요.
+
+## MCP 설정
+
+> **⚠️ 문맥 창(Context Window) 주의:** 이 MCP는 **31개의 도구**를 제공하므로 문맥 창을 많이 차지할 수 있습니다. NotebookLM을 적극적으로 사용하지 않을 때는 MCP를 비활성화하여 다른 작업의 문맥을 확보하는 것이 좋습니다.
+
+### CLI 옵션
+
+명령줄 인수를 사용하여 서버를 설정할 수 있습니다. 전송 프로토콜(stdio, http, sse), 포트, 호스트, 디버그 모드, 쿼리 타임아웃 등을 설정할 수 있습니다.
+
+### 환경 변수
+
+환경 변수를 통해서도 설정이 가능합니다. (`NOTEBOOKLM_MCP_TRANSPORT`, `NOTEBOOKLM_MCP_PORT` 등)
+
+
+### AI 도구 연결 (Claude Code, Gemini CLI, IDE 등)
+
+Claude Code나 Gemini CLI와 같은 도구는 내장된 명령어를 통해 MCP 서버를 쉽게 추가할 수 있습니다.
+
+Cursor, VS Code, Claude Desktop 등 JSON 설정 파일을 사용하는 도구의 경우, 설치된 `notebooklm-mcp`의 경로를 찾아 설정 파일의 `mcpServers` 항목에 추가해야 합니다.
+
+## 활용 예시
+
+Claude Code, Cursor, Gemini CLI 등의 AI 도구와 자연어로 대화하며 다음과 같이 활용할 수 있습니다.
+
+### 조사 및 탐색
+
+- "내 모든 NotebookLM 노트북 목록을 보여줘"
+- "'AI 전략 연구'라는 새 노트북을 만들어줘"
+- "'기업 AI ROI 지표'에 대해 웹 조사를 시작하고 찾은 소스를 보여줘"
+- "'클라우드 마켓플레이스 트렌드'에 대해 심층 조사를 수행하고 상위 10개 소스를 가져와줘"
+- "내 구글 드라이브에서 '제품 로드맵' 관련 문서를 검색해서 노트북을 만들어줘"
+
+### 콘텐츠 추가
+
+- "이 URL을 내 노트북에 추가해줘: https://example.com/article"
+- "쿠버네티스에 관한 이 유튜브 영상을 노트북에 추가해줘"
+- "내 회의 노트를 텍스트 소스로 이 노트북에 추가해줘"
+- "이 구글 문서를 내 연구 노트북으로 가져와줘"
+
+### AI 기반 분석
+
+- "이 노트북의 핵심 발견 사항은 뭐야?"
+- "이 모든 소스들의 주요 주장을 요약해줘"
+- "이 소스에서 보안 모범 사례에 대해 뭐라고 해?"
+- "이 노트북이 무엇에 관한 것인지 AI 요약을 해줘"
+- "채팅 설정을 학습 가이드 스타일로 변경하고 답변을 길게 해줘"
+
+### 콘텐츠 생성
+
+- "이 노트북을 심층 분석 형식의 오디오 팟캐스트 오버뷰로 만들어줘"
+- "클래식 비주얼 스타일로 비디오 설명 영상을 생성해줘"
+- "이 소스들을 바탕으로 브리핑 문서를 만들어줘"
+- "공부용 플래시카드를 만들어줘, 난이도는 중간으로"
+- "가로 방향 인포그래픽을 생성해줘"
+- "내 연구 소스들로 마인드맵을 그려줘"
+- "이 노트북으로 프레젠테이션 슬라이드 덱을 만들어줘"
+
+### 스마트 관리
+
+- "업데이트가 필요한 구글 드라이브 소스를 확인하고 동기화해줘"
+- "이 노트북의 모든 소스와 최신 상태 여부를 보여줘"
+- "노트북에서 이 소스를 삭제해줘"
+- "내 오디오 오버뷰 생성 상태를 확인해줘"
+
+## 인증 수명 주기
+
+- **쿠키:** 약 2~4주 유지 (저장된 프로필이 있으면 헤드리스 Chrome을 통해 자동 갱신)
+- **CSRF 토큰:** 약 수분 유지 (요청 실패 시 자동 갱신)
+- **세션 ID:** MCP 세션당 유지 (MCP 시작 시 자동 추출)
+
+**v0.1.9+**: 서버가 토큰 만료를 자동으로 처리합니다.
+1. 만료 시 즉시 CSRF 토큰 갱신
+2. 외부에서 업데이트된 경우 디스크에서 쿠키 다시 로드
+3. 저장된 로그인 프로필이 있는 경우 헤드리스 Chrome 인증 실행
+
+자동 갱신이 실패하면(구글 로그인이 완전히 만료된 경우), 다시 인증 도구를 실행해야 합니다.
+
+## 문제 해결
+
+### 업데이트가 제대로 되지 않는 경우
+
+패키지 관리자의 캐시 문제나 버전 제약으로 인해 최신 버전이 설치되지 않을 수 있습니다. 이 경우 강제 재설치 옵션을 사용하여 해결할 수 있습니다.
+
+### Chrome DevTools MCP가 작동하지 않는 경우 (Cursor/Gemini CLI)
+
+Chrome DevTools MCP가 "도구가 없음"으로 표시되거나 시작되지 않는 경우, 알려진 `npx` 버그일 수 있습니다. 이 경우 `pnpm`을 사용하여 실행하도록 설정을 변경하면 해결될 수 있습니다.
+
+## 제한 사항
+
+- **속도 제한:** 무료 계층은 하루 약 50회 쿼리로 제한됩니다.
+- **공식 지원 없음:** API는 예고 없이 변경될 수 있습니다.
+- **쿠키 만료:** 몇 주마다 쿠키를 다시 추출해야 할 수 있습니다.
+
+## 기여하기
+
+API 문서 및 새로운 기능 추가 방법은 [CLAUDE.md](CLAUDE.md)를 참고하세요.
+
+
+
+## 라이선스
+
+MIT License
